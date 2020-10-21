@@ -4,7 +4,6 @@
 
 const arr = [1,3,4,6,8,9,11,23,45]
 
-
 // return the index of the number being searched for
 const binarySearch = (arr, num) => {
     let left = 0;

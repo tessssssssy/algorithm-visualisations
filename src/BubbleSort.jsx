@@ -87,12 +87,12 @@ class BubbleSort extends React.Component {
           let lowest = i;
           for (var j = i + 1; j < arr.length; j++) {
             setTimeout(() => {
-                if (arr[j].number < arr[lowest].number) {
-                    lowest = j;
-                    arr[lowest].highlighted = true;
-                    arr[i].highlighted = true;
-                  }
-            }, 500 * j)
+              if (arr[j].number < arr[lowest].number) {
+                lowest = j;
+                arr[lowest].highlighted = true;
+                arr[i].highlighted = true;
+              }
+            }, 500 * j);
           }
           if (i !== lowest) {
             let temp = arr[i];
@@ -113,22 +113,50 @@ class BubbleSort extends React.Component {
     let counter = 0;
     for (let i = 1; i < arr.length; i++) {
       setTimeout(
-       function () {
-        counter++;
+        function () {
+          counter++;
           let currentVal = arr[i].number; // 4
           for (var j = i - 1; j >= 0 && arr[j].number > currentVal; j--) {
             arr[j + 1].number = arr[j].number; // 6
           }
           arr[j + 1].number = currentVal; // 4
-          this.setState({ columns: arr})
+          this.setState({ columns: arr });
         }.bind(this),
         500 * i
       );
     }
   };
 
-  // [6,1,4,3,7,8]
-  // [1,6,4,3,7,8]
+  mergeSort = (arr) => {
+    console.log(arr)
+    if (arr.length <= 1) return arr;
+    let mid = Math.floor(arr.length / 2);
+    let left = this.mergeSort(arr.slice(0, mid));
+    let right = this.mergeSort(arr.slice(mid));
+    return this.merge(left, right);
+  };
+
+  merge = (arr1, arr2) => {
+    const newArr = []
+    while (arr1.length > 0 && arr2.length > 0) {
+        // setTimeout
+        if (arr1[0].number <= arr2[0].number) {
+            newArr.push(arr1[0])
+            arr1.shift()
+        } else {
+            newArr.push(arr2[0])
+            arr2.shift()
+        }
+    }
+    // setTimeout
+    if (arr1.length > 0) {
+        newArr.push(...arr1)
+    } else {
+        newArr.push(...arr2)
+    }
+    this.setState({arr: newArr})
+  }
+
   render() {
     const containerStyles = {
       display: "flex",
@@ -154,6 +182,9 @@ class BubbleSort extends React.Component {
         </button>
         <button onClick={() => this.insertionSort(this.state.columns)}>
           Insertion Sort
+        </button>
+        <button onClick={() => this.mergeSort(this.state.columns)}>
+          Merge Sort
         </button>
       </>
     );
