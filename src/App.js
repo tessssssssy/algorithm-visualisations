@@ -8,7 +8,7 @@ import Merge from './Merge.jsx';
 function App() {
   return (
     <div className="App">
-      <Merge/>
+      <MergeSort/>
     </div>
   );
 }

@@ -1,50 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Column from "./Column";
+import mergeSorter from './mergeSort.js';
 
 const MergeSort = () => {
-  const [iterations, setIterations ] = useState([]);
-  const [columns, setColumns] = useState([
-    {
-      number: 6,
-      highlighted: false,
-    },
-    {
-      number: 4,
-      highlighted: false,
-    },
-    {
-      number: 1,
-      highlighted: false,
-    },
-    {
-      number: 8,
-      highlighted: false,
-    },
-    {
-      number: 9,
-      highlighted: false,
-    },
-    {
-      number: 2,
-      highlighted: false,
-    },
-    {
-      number: 3,
-      highlighted: false,
-    },
-    {
-      number: 5,
-      highlighted: false,
-    },
-    {
-      number: 10,
-      highlighted: false,
-    },
-    {
-      number: 7,
-      highlighted: false,
-    }
-  ]);
+  const [iterations, setIterations ] = useState(mergeSorter([11,5,3,2,1,6,7,4]));
+  const [columns, setColumns] = useState([11,5,3,2,1,6,7,4]);
 
   useEffect(() => {
     console.log("useEffect");
@@ -66,7 +26,7 @@ const MergeSort = () => {
   const merge = (arr1, arr2) => {
     const newArr = [];
     while (arr1.length > 0 && arr2.length > 0) {
-      if (arr1[0].number <= arr2[0].number) {
+      if (arr1[0] <= arr2[0]) {
         newArr.push(arr1[0]);
         arr1.shift();
       } else {
@@ -82,7 +42,7 @@ const MergeSort = () => {
 
     let index = 0;
     for (let i = 0; i < columns.length; i++) {
-        if (newArr.includes(columns[i].number)) {
+        if (newArr.includes(columns[i])) {
             index = i;
             break;
         }
@@ -92,17 +52,17 @@ const MergeSort = () => {
     setColumns(newColumns);
     let newIterations = [...iterations, newColumns];
     setIterations(newIterations);
-    console.log(iterations);
+    console.log(newIterations)
     return newArr;
   };
 
   const animateMergeSort = () => {
-    console.log(iterations)
+    console.log(iterations);
     for (let i = 0; i < iterations.length; i++) {
         setTimeout(() => {
             // console.log(iterations[i]);
             setColumns(iterations[i])
-        }, 500 * i)      
+        }, 500 * i + 1)      
     }
   }
 
@@ -117,7 +77,7 @@ const MergeSort = () => {
     <div style={containerStyles} className="container">
       {columns.map(column => {
         return (
-          <Column number={column.number} highlighted={column.highlighted} />
+          <Column number={column} highlighted={false} />
         );
       })}
       <button onClick={animateMergeSort}>Sort</button>

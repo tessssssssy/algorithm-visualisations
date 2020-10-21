@@ -3,49 +3,8 @@ import Column from "./Column";
 
 class Merge extends React.Component {
   state = {
-    columns: [
-      {
-        number: 6,
-        highlighted: false,
-      },
-      {
-        number: 4,
-        highlighted: false,
-      },
-      {
-        number: 1,
-        highlighted: false,
-      },
-      {
-        number: 8,
-        highlighted: false,
-      },
-      {
-        number: 9,
-        highlighted: false,
-      },
-      {
-        number: 2,
-        highlighted: false,
-      },
-      {
-        number: 3,
-        highlighted: false,
-      },
-      {
-        number: 5,
-        highlighted: false,
-      },
-      {
-        number: 10,
-        highlighted: false,
-      },
-      {
-        number: 7,
-        highlighted: false,
-      },
-    ],
-    iterations: [],
+    columns: [10,5,3,2,1,6,7,4,8,9],
+    iterations: [[10,5,3,2,1,6,7,4,8,9]]
   };
 
   componentDidMount() {
@@ -63,7 +22,7 @@ class Merge extends React.Component {
   merge = (arr1, arr2) => {
     const newArr = [];
     while (arr1.length > 0 && arr2.length > 0) {
-      if (arr1[0].number <= arr2[0].number) {
+      if (arr1[0] <= arr2[0]) {
         newArr.push(arr1[0]);
         arr1.shift();
       } else {
@@ -79,29 +38,29 @@ class Merge extends React.Component {
 
     let index = 0;
     for (let i = 0; i < this.state.columns.length; i++) {
-      if (newArr.includes(this.state.columns[i].number)) {
+      if (newArr.includes(this.state.columns[i])) {
         index = i;
+        console.log(index)
         break;
       }
     }
     // maybe you could save each iteration into the state and then just run through it in a separate function
+    console.log(newArr)
     let newColumns = [
       ...this.state.columns.slice(0, index),
       ...newArr,
       ...this.state.columns.slice(index + newArr.length),
     ];
     console.log(newColumns)
-    this.setState({columns: newColumns}, () => {
-        let newIterations = [...this.state.iterations, newColumns];
+    this.setState({columns: newColumns})
+    let newIterations = [...this.state.iterations, this.state.columns];
         this.setState({iterations: newIterations});
-        // console.log(this.state.iterations);
-        // console.log(this.state.columns);
-    })
+        console.log(this.state.iterations)
     return newArr;
   };
 
   animateMergeSort = () => {
-    console.log(this.state.iterations);
+    // console.log(this.state.iterations);
     // for (let i = 0; i < iterations.length; i++) {
     //   setTimeout(() => {
     //     // console.log(iterations[i]);
@@ -122,7 +81,7 @@ class Merge extends React.Component {
       <div style={containerStyles} className="container">
         {this.state.columns.map((column) => {
           return (
-            <Column number={column.number} highlighted={column.highlighted} />
+            <Column number={column} highlighted={false} />
           );
         })}
         <button onClick={this.animateMergeSort}>Sort</button>
