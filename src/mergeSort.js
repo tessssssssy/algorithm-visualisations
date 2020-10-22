@@ -1,6 +1,6 @@
 
 
-let globalArr = [10,5,3,2,1,6,7,4];
+let globalArr = [12,10,9,8,7,6,2,1];
 let iterations = [globalArr];
 
 
@@ -15,6 +15,7 @@ const mergeSort = (arr) => {
 }
 
 const merge = (arr1, arr2) => {
+    console.log(arr1, arr2)
     const newArr = []
     let counter = 1;
     while (arr1.length > 0 && arr2.length > 0) {
@@ -49,17 +50,6 @@ const merge = (arr1, arr2) => {
     // console.log(newArr);
     return newArr;
 }
-
-
-// mergeSort([10,5,3,2,1,6,7,4]);
-
-
-// for (let i = 0; i < iterations.length; i++) {
-//     // set the state to arr[i] each time
-//     setTimeout(() => {
-//         console.log(iterations[i]);
-//     }, 500 * i)
-// }
 
 
 class MergeSortAnimation {
@@ -125,7 +115,12 @@ class MergeSortAnimation {
 
 const mergeSorter = (array) => {
     let iterations = [array]
+    let counter = 0;
     const mergeSort = (arr) => {
+        // console.log(iterations)
+        // counter++;
+        console.log(arr)
+        // console.log(counter);
         if (arr.length <= 1) return arr;
         let mid = Math.floor(arr.length / 2)
         let left = mergeSort(arr.slice(0, mid));
@@ -136,7 +131,10 @@ const mergeSorter = (array) => {
     
     const merge = (arr1, arr2) => {
         const newArr = []
-        let counter = 1;
+        counter++;
+        // console.log(arr1);
+        // console.log(arr2);
+        // console.log(counter);
         while (arr1.length > 0 && arr2.length > 0) {
             // setTimeout
             if (arr1[0] <= arr2[0]) {
@@ -157,20 +155,40 @@ const mergeSorter = (array) => {
         // ...globalArr.slice(0, newArr.length), 
         let index = 0;
         for (let i = 0; i < array.length; i++) {
-            if (newArr.includes(globalArr[i])) {
+            if (newArr.includes(array[i])) {
                 index = i;
                 break;
             }
         }
         // maybe you could save each iteration into the state and then just run through it in a separate function
         array = [...array.slice(0, index), ...newArr, ...array.slice(index + newArr.length)];
+        // console.log(array.slice(0,0))
         iterations.push(array);
         // console.log(globalArr);
         // console.log(newArr);
         return newArr;
     }
     mergeSort(array);
+    console.log(iterations);
     return iterations;
 }
+
+const populateColumns = () => {
+    const newArr = []
+    for (let i = 8; i >= 1; i--) {
+      newArr.push(i)
+    }
+    // const randomArr = []
+    // while (newArr.length > 0) {
+    //   let randomIndex = Math.floor(Math.random() * newArr.length)
+    //   randomArr.push(newArr[randomIndex]);
+    //   newArr.splice(randomIndex, 1);
+    // }
+    // return randomArr;
+    return newArr
+}
+
+// const arr = populateColumns();
+// mergeSorter(arr);
 
 export default mergeSorter;

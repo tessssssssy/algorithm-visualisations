@@ -5,8 +5,8 @@ class Column extends React.Component {
         const columnStyles = { 
             "height" : this.props.height,
             "backgroundColor": this.props.highlighted ? "cornflowerblue" : "lightblue",
-            "height" : `${this.props.number * 10}px`,
-            "width": "40px"
+            "height" : `${this.props.number}px`,
+            "width": "2px"
     }
         return (
             <div style={columnStyles}/>
