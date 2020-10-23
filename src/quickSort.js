@@ -1,6 +1,7 @@
 // select a pivot point 
 // move all the items to either right or left
 // repeat recursively for everything left and right of pivot
+
 const quickSorter = (array) => {
     let iterations = [array];
 

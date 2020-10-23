@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Select, MenuItem, InputLabel, Slider, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import SliderContainer from "./SliderContainer";
 import "./Dashboard.scss";
 import Sorter from './Sorter.jsx';
 
@@ -10,11 +8,17 @@ import quickSorter from './quickSort.js';
 
 const Dashboard = () => {
   const [state, setState] = useState({
-    algorithm: mergeSorter,
+    sortMethod: 'merge-sort',
     visual: null,
     size: 100,
     speed: 100,
   });
+
+  useEffect(() => {
+    console.log(`Dashboard component mounting with ${state.sortMethod}`);
+    const arr = populateColumns();
+    setState({columns: arr})
+  }, []);
 
   const handleChange = (evt) => {
     const value = evt.target.value;
@@ -23,6 +27,23 @@ const Dashboard = () => {
       [evt.target.name]: value,
     });
   };
+
+  const populateColumns = () => {
+    const newArr = []
+    for (let i = 64; i >= 1; i--) {
+      newArr.push(i)
+    }
+    const randomArr = []
+    while (newArr.length > 0) {
+      let randomIndex = Math.floor(Math.random() * newArr.length)
+      randomArr.push(newArr[randomIndex]);
+      newArr.splice(randomIndex, 1);
+    }
+    setState({columns: randomArr})
+    return randomArr;
+    // return newArr
+  }
+
 
   return (
     <>
@@ -34,21 +55,22 @@ const Dashboard = () => {
           </InputLabel>
           <Select
             className="select"
-            labelId="algorithm"
-            id="algorithm"
-            value={state.algorithm}
+            labelId="sortMethod"
+            id="sortMethod"
+            value={state.sortMethod}
             onChange={handleChange}
             label="Sorting Algorithm"
+            name="sortMethod"
           >
-            <MenuItem value={"bubbleSort"}>Bubble Sort</MenuItem>
-            <MenuItem value={"selectionSort"}>Selection Sort</MenuItem>
-            <MenuItem value={"insertionSort"}>Insertion Sort</MenuItem>
-            <MenuItem value={mergeSorter}>Merge Sort</MenuItem>
-            <MenuItem value={quickSorter}>Quick Sort</MenuItem>
+            <MenuItem value={"bubble-sort"}>Bubble Sort</MenuItem>
+            <MenuItem value={"selection-sort"}>Selection Sort</MenuItem>
+            <MenuItem value={"insertion-sort"}>Insertion Sort</MenuItem>
+            <MenuItem value={"merge-sort"}>Merge Sort</MenuItem>
+            <MenuItem value={"quick-sort"}>Quick Sort</MenuItem>
           </Select>
         </div>
         <div className="select-container">
-          <InputLabel className="select-label" id="visualisation">
+          {/* <InputLabel className="select-label" id="visualisation">
             Visualisation
           </InputLabel>
           <Select
@@ -60,7 +82,7 @@ const Dashboard = () => {
             <MenuItem value={10}>Ten</MenuItem>
             <MenuItem value={20}>Twenty</MenuItem>
             <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+          </Select> */}
         </div>
       </div>
       <div className="dashboard-column">
@@ -87,7 +109,7 @@ const Dashboard = () => {
       </div>
       <Button variant="outlined">Sort</Button>
     </div>
-    <Sorter/>
+    <Sorter sortMethod={state.sortMethod} algorithm={state.algorithm} mergeSorter={mergeSorter} columns={state.columns}/>
     </>
   );
 };

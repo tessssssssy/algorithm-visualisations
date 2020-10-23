@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Sorter from './Sorter';
 import Dashboard from './Dashboard.jsx';
+import DashboardClass from './DashboardClass.jsx';
 
 const App = () => {
   // const [state, setState] = useState({
@@ -22,7 +23,10 @@ const App = () => {
 
   return (
     <div className="App">
-      <Dashboard/>
+      <nav>
+        <h1>ALGOMATIONS</h1>
+      </nav>
+      <DashboardClass/>
     </div>
   );
 }

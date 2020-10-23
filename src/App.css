@@ -1,11 +1,17 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
   /* background-color:; */
   height: 100vh;
   overflow: hidden;
   width: 100vw;
 }
 
+h1 {
+  font-family: 'Roboto';
+  margin-left: 20px;
+  font-weight: 100;
+  letter-spacing: 2px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
