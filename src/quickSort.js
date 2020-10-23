@@ -3,7 +3,7 @@
 // repeat recursively for everything left and right of pivot
 
 const quickSorter = (array) => {
-    let iterations = [array];
+    let iterations = [];
 
     const quickSort = (arr, left = 0, right = arr.length - 1) => {
         //console.log(arr);

@@ -3,6 +3,9 @@ import Column from "./Column";
 
 import mergeSorter from "./mergeSort.js";
 import quickSorter from "./quickSort.js";
+import bubbleSorter from "./bubbleSort";
+import selectionSorter from "./selectionSort";
+import insertionSorter from "./insertionSort";
 
 import "./Sorter.scss";
 
@@ -11,9 +14,16 @@ class SorterClass extends React.Component {
     columns: [],
     iterations: [],
   };
+
   componentDidMount() {
     console.log("Sorter component mounting");
     this.populateColumns();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.sortMethod !== this.props.sortMethod) {
+      this.populateColumns();
+    }
   }
 
   populateColumns = () => {
@@ -21,16 +31,17 @@ class SorterClass extends React.Component {
     for (let i = 64; i >= 1; i--) {
       newArr.push(i);
     }
+    // Random array
     const randomArr = [];
     while (newArr.length > 0) {
       let randomIndex = Math.floor(Math.random() * newArr.length);
       randomArr.push(newArr[randomIndex]);
       newArr.splice(randomIndex, 1);
     }
-    console.log(randomArr);
+
     this.setState({ columns: randomArr }, () => {
         console.log(this.state.columns);
-        this.setState({iterations: this.getIterations([...this.state.columns])}, () => {
+        this.setState({iterations: this.getIterations()}, () => {
             console.log(this.state.iterations);
         })
     });
@@ -41,22 +52,26 @@ class SorterClass extends React.Component {
     let iterations;
     switch (this.props.sortMethod) {
       case "merge-sort":
-        iterations = mergeSorter(this.state.columns);
+        iterations = mergeSorter([...this.state.columns]);
         return iterations;
         break;
       case "quick-sort":
-        iterations = quickSorter(this.state.columns);
+        iterations = quickSorter([...this.state.columns]);
+        console.log(iterations)
         return iterations;
         // setState({iterations: iterations});
         break;
       case "bubble-sort":
-        // code block
+        iterations = bubbleSorter([...this.state.columns]);
+        return iterations;
         break;
       case "selection-sort":
-        // code block
+        iterations = selectionSorter([...this.state.columns]);
+        return iterations;
         break;
       case "insertion-sort":
-        // code block
+        iterations = insertionSorter([...this.state.columns]);
+        return iterations;
         break;
       default:
       // code block
@@ -79,11 +94,12 @@ class SorterClass extends React.Component {
     this.populateColumns();
     // this.setState({ columns: arr, iterations: this.getIterations([...arr]) });
   };
+
   render() {
     return (
       <div className="sorter-container">
         <div className="columns-container">
-          {this.state.columns &&
+          {
             this.state.columns.map((column) => {
               return <Column number={column} highlighted={false} />;
             })}

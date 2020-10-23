@@ -2,7 +2,6 @@ import React from "react";
 
 const Column = (props) => {
   const columnStyles = {
-    height: props.height,
     backgroundColor: props.highlighted
       ? "cornflowerblue"
       : `rgb(${150},${props.number * 4},${256 - props.number * 4})`,

@@ -7,7 +7,7 @@ import {
   Button,
 } from "@material-ui/core";
 import "./Dashboard.scss";
-import Sorter from "./SorterClass.jsx";
+import SorterClass from "./SorterClass.jsx";
 
 import mergeSorter from "./mergeSort.js";
 import quickSorter from "./quickSort.js";
@@ -31,23 +31,9 @@ class DashboardClass extends React.Component {
     this.setState({
       ...this.state,
       [evt.target.name]: value,
+    }, () => {
+        console.log(this.state);
     });
-  };
-
-  populateColumns = () => {
-    const newArr = [];
-    for (let i = 64; i >= 1; i--) {
-      newArr.push(i);
-    }
-    const randomArr = [];
-    while (newArr.length > 0) {
-      let randomIndex = Math.floor(Math.random() * newArr.length);
-      randomArr.push(newArr[randomIndex]);
-      newArr.splice(randomIndex, 1);
-    }
-    this.setState({ columns: randomArr });
-    return randomArr;
-    // return newArr
   };
 
   render() {
@@ -115,11 +101,9 @@ class DashboardClass extends React.Component {
           </div>
           <Button variant="outlined">Sort</Button>
         </div>
-        <Sorter
+        <SorterClass
           sortMethod={this.state.sortMethod}
           algorithm={this.state.algorithm}
-          mergeSorter={this.mergeSorter}
-          columns={this.state.columns}
         />
       </>
     );
