@@ -1,0 +1,15 @@
+
+
+.sorter-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    .columns-container {
+        display: flex;
+        width: 1000px;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+}

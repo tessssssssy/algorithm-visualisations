@@ -2,17 +2,22 @@ import React, { useState, useEffect } from "react";
 import Column from "./Column";
 import mergeSorter from './mergeSort.js';
 import quickSorter from './quickSort.js';
+import './Sorter.scss';
 
-const MergeSort = () => {
-  const [iterations, setIterations ] = useState([]);
-  const [columns, setColumns] = useState([]);
-
+const Sorter = () => {
+  // const [iterations, setIterations ] = useState([]);
+  // const [columns, setColumns] = useState([]);
+  const [state, setState] = useState({
+    sortingMethod: mergeSorter,
+    columns: [],
+    iterations: []
+  })
   useEffect(() => {
     console.log("useEffect");
     const arr = populateColumns();
-    setColumns(arr);
-    setIterations(quickSorter(arr));
-    animateMergeSort();
+    setState({columns: arr, iterations: state.sortingMethod([...arr])})
+    // setState(state.sortingMethod([...arr]));
+    // animateMergeSort();
   }, []);
 
   const populateColumns = () => {
@@ -31,33 +36,28 @@ const MergeSort = () => {
   }
 
   const animateMergeSort = () => {
-    console.log(iterations);
-    console.log(iterations.length);
-    for (let i = 0; i < iterations.length; i++) {
+    // console.log(iterations);
+    // console.log(iterations.length);
+    for (let i = 0; i < state.iterations.length; i++) {
         setTimeout(() => {
             // console.log(iterations[i]);
-            setColumns(iterations[i])
+            setState({columns: state.iterations[i]})
         }, 100 * i)      
     }
   }
 
-  const containerStyles = {
-    display: "flex",
-    width: "1000px",
-    height: "800px",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  };
   return (
-    <div style={containerStyles} className="container">
-      {columns.map(column => {
+    <div className="sorter-container">
+      <div className="columns-container">
+      {state.columns.map(column => {
         return (
           <Column number={column} highlighted={false} />
         );
       })}
+      </div>
       <button onClick={animateMergeSort}>Sort</button>
     </div>
   );
 };
 
-export default MergeSort;
+export default Sorter;

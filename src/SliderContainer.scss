@@ -1,0 +1,12 @@
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    width: 300px;
+    .slider-label {
+        margin-right: 10px;
+    }
+}
+
