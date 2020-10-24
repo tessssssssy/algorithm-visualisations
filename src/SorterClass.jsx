@@ -103,7 +103,7 @@ class SorterClass extends React.Component {
         <div className="columns-container">
           {
             this.props.columns.map((column) => {
-              return <Column randomVal={randomVal} length={this.props.columns.length} number={column} highlighted={false} width={columnWidth}/>;
+              return <Column key={column} randomVal={randomVal} length={this.props.columns.length} number={column} highlighted={false} width={columnWidth}/>;
             })}
         </div>
         {/* <button onClick={this.animateSort}>Sort</button>

@@ -9,13 +9,15 @@ const selectionSorter = (array) => {
                 if (arr[j] < arr[lowest]) {
                     lowest = j;
                 }
+                iterations.push([...arr])
             }
             if (i !== lowest) {
                 let temp = arr[i];
                 arr[i] = arr[lowest];
                 arr[lowest] = temp;
             }
-            iterations.push([...arr])
+            
+            
         }
         return arr;
     }

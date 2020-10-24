@@ -135,9 +135,9 @@ class DashboardClass extends React.Component {
   render() {
     return (
       <>
-        <div class="dashboard">
-          <div class="dashboard-column">
-            <div class="select-container">
+        <div className="dashboard">
+          <div className="dashboard-column">
+            <div className="select-container">
               <InputLabel className="select-label" id="algorithm">
                 Algorithm
               </InputLabel>
