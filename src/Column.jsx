@@ -7,7 +7,8 @@ const Column = (props) => {
       : `rgb(${props.length / 2},${ 256 - (props.number / 2)},${256 - (props.length - props.number)})`,
     height: `${(props.number / props.length) * 400}px`,
     width: props.width,
-    maxWidth: '20px'
+    maxWidth: '100px',
+    marginLeft: '1px'
   };
   return <div style={columnStyles} />;
 };

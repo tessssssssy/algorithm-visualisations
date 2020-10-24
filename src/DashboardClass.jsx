@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Select,
   MenuItem,
@@ -26,15 +26,10 @@ class DashboardClass extends React.Component {
   };
 
   componentDidMount() {
-    console.log("Sorter component mounting");
     this.populateColumns();
   }
 
-  //   componentDidUpdate(prevProps) {
-  //     if (prevProps.sortMethod !== this.props.sortMethod) {
-  //       this.populateColumns();
-  //     }
-  //   }
+
 
   populateColumns = () => {
     const newArr = [];
@@ -64,26 +59,21 @@ class DashboardClass extends React.Component {
       case "merge-sort":
         iterations = mergeSorter([...this.state.columns]);
         return iterations;
-        break;
       case "quick-sort":
         iterations = quickSorter([...this.state.columns]);
         console.log(iterations);
         return iterations;
-        // setState({iterations: iterations});
-        break;
       case "bubble-sort":
         iterations = bubbleSorter([...this.state.columns]);
         return iterations;
-        break;
       case "selection-sort":
         iterations = selectionSorter([...this.state.columns]);
         return iterations;
-        break;
       case "insertion-sort":
         iterations = insertionSorter([...this.state.columns]);
         return iterations;
-        break;
       default:
+          break;
       // code block
     }
   };
