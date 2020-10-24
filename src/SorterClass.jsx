@@ -96,12 +96,13 @@ class SorterClass extends React.Component {
 //   };
   render() {
     console.log(this.props.columns)
+    const columnWidth = 1000 / this.props.columns.length
     return (
       <div className="sorter-container">
         <div className="columns-container">
           {
             this.props.columns.map((column) => {
-              return <Column number={column} highlighted={false} />;
+              return <Column length={this.props.columns.length} number={column} highlighted={false} width={columnWidth}/>;
             })}
         </div>
         {/* <button onClick={this.animateSort}>Sort</button>

@@ -19,10 +19,10 @@ class DashboardClass extends React.Component {
   state = {
     sortMethod: "merge-sort",
     visual: null,
-    size: 100,
+    size: 64,
     speed: 100,
     columns: [],
-    iterations: []
+    iterations: [],
   };
 
   componentDidMount() {
@@ -30,15 +30,15 @@ class DashboardClass extends React.Component {
     this.populateColumns();
   }
 
-//   componentDidUpdate(prevProps) {
-//     if (prevProps.sortMethod !== this.props.sortMethod) {
-//       this.populateColumns();
-//     }
-//   }
+  //   componentDidUpdate(prevProps) {
+  //     if (prevProps.sortMethod !== this.props.sortMethod) {
+  //       this.populateColumns();
+  //     }
+  //   }
 
   populateColumns = () => {
     const newArr = [];
-    for (let i = 64; i >= 1; i--) {
+    for (let i = this.state.size; i >= 1; i--) {
       newArr.push(i);
     }
     // Random array
@@ -50,10 +50,10 @@ class DashboardClass extends React.Component {
     }
 
     this.setState({ columns: randomArr }, () => {
-        console.log(this.state.columns);
-        this.setState({iterations: this.getIterations()}, () => {
-            console.log(this.state.iterations);
-        })
+      console.log(this.state.columns);
+      this.setState({ iterations: this.getIterations() }, () => {
+        console.log(this.state.iterations);
+      });
     });
     // return randomArr;
   };
@@ -67,7 +67,7 @@ class DashboardClass extends React.Component {
         break;
       case "quick-sort":
         iterations = quickSorter([...this.state.columns]);
-        console.log(iterations)
+        console.log(iterations);
         return iterations;
         // setState({iterations: iterations});
         break;
@@ -90,32 +90,48 @@ class DashboardClass extends React.Component {
 
   animateSort = () => {
     // console.log(state.iterations);
+    let speed = 1000 / this.state.speed;
     for (let i = 0; i < this.state.iterations.length; i++) {
       setTimeout(() => {
         // console.log(iterations[i]);
         this.setState({ columns: this.state.iterations[i] });
-      }, 100 * i);
+      }, speed * i);
     }
     //console.log(state.iterations);
   };
 
   reset = () => {
-    console.log("Resetting")
+    console.log("Resetting");
     this.populateColumns();
     // this.setState({ columns: arr, iterations: this.getIterations([...arr]) });
   };
   handleChange = (evt) => {
     const value = evt.target.value;
-    this.setState({
-      ...this.state,
-      [evt.target.name]: value,
-    }, () => {
-        if (evt.target.name === 'sortMethod') {
-            this.populateColumns();
+    console.log(value);
+    this.setState(
+      {
+        ...this.state,
+        [evt.target.name]: value,
+      },
+      () => {
+        if (evt.target.name === "sortMethod") {
+          this.populateColumns();
         }
+      }
+    );
+  };
+
+  handleSizeChange = (evt, val) => {
+    console.log(evt.target.id);
+    console.log(val);
+    this.setState({ size: val }, () => {
+      this.populateColumns();
     });
   };
 
+  handleSpeedChange = (evt, val) => {
+      this.setState({speed: val})
+  }
   render() {
     return (
       <>
@@ -161,10 +177,12 @@ class DashboardClass extends React.Component {
             <div className="slider-container">
               <InputLabel className="slider-label">Speed</InputLabel>
               <Slider
+                id="speed"
                 valueLabelDisplay="auto"
-                max="1000"
+                max={100}
+                min={1}
                 defaultValue={this.state.speed}
-                vonChange={this.handleChange}
+                onChange={this.handleSpeedChange}
                 aria-labelledby="continuous-slider"
               />
             </div>
@@ -172,15 +190,29 @@ class DashboardClass extends React.Component {
               <InputLabel className="slider-label">Size</InputLabel>
               <Slider
                 valueLabelDisplay="auto"
-                max="1000"
+                max={500}
+                min={4}
+                id="size"
                 defaultValue={this.state.size}
-                vonChange={this.handleChange}
+                onChange={this.handleSizeChange}
                 aria-labelledby="continuous-slider"
               />
             </div>
           </div>
-          <Button className="dashboard-button" onClick={this.animateSort} variant="outlined">Sort</Button>
-          <Button className="dashboard-button" onClick={this.reset} variant="outlined">Reset</Button>
+          <Button
+            className="dashboard-button"
+            onClick={this.animateSort}
+            variant="outlined"
+          >
+            Sort
+          </Button>
+          <Button
+            className="dashboard-button"
+            onClick={this.reset}
+            variant="outlined"
+          >
+            Reset
+          </Button>
         </div>
         <SorterClass
           sortMethod={this.state.sortMethod}

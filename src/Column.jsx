@@ -4,9 +4,10 @@ const Column = (props) => {
   const columnStyles = {
     backgroundColor: props.highlighted
       ? "cornflowerblue"
-      : `rgb(${150},${props.number * 4},${256 - props.number * 4})`,
-    height: `${props.number * 8}px`,
-    width: `5px`,
+      : `rgb(${256},${props.number},${256 - (props.length - props.number)})`,
+    height: `${(props.number / props.length) * 400}px`,
+    width: props.width,
+    maxWidth: '20px'
   };
   return <div style={columnStyles} />;
 };
