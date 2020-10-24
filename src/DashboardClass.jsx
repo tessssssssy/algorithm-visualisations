@@ -11,6 +11,9 @@ import SorterClass from "./SorterClass.jsx";
 
 import mergeSorter from "./mergeSort.js";
 import quickSorter from "./quickSort.js";
+import bubbleSorter from "./bubbleSort";
+import selectionSorter from "./selectionSort";
+import insertionSorter from "./insertionSort";
 
 class DashboardClass extends React.Component {
   state = {
@@ -18,21 +21,98 @@ class DashboardClass extends React.Component {
     visual: null,
     size: 100,
     speed: 100,
+    columns: [],
+    iterations: []
   };
 
   componentDidMount() {
-    // console.log(`Dashboard component mounting with ${this.state.sortMethod}`);
-    // const arr = this.populateColumns();
-    // this.setState({ columns: arr });
+    console.log("Sorter component mounting");
+    this.populateColumns();
   }
 
+//   componentDidUpdate(prevProps) {
+//     if (prevProps.sortMethod !== this.props.sortMethod) {
+//       this.populateColumns();
+//     }
+//   }
+
+  populateColumns = () => {
+    const newArr = [];
+    for (let i = 64; i >= 1; i--) {
+      newArr.push(i);
+    }
+    // Random array
+    const randomArr = [];
+    while (newArr.length > 0) {
+      let randomIndex = Math.floor(Math.random() * newArr.length);
+      randomArr.push(newArr[randomIndex]);
+      newArr.splice(randomIndex, 1);
+    }
+
+    this.setState({ columns: randomArr }, () => {
+        console.log(this.state.columns);
+        this.setState({iterations: this.getIterations()}, () => {
+            console.log(this.state.iterations);
+        })
+    });
+    // return randomArr;
+  };
+
+  getIterations = () => {
+    let iterations;
+    switch (this.state.sortMethod) {
+      case "merge-sort":
+        iterations = mergeSorter([...this.state.columns]);
+        return iterations;
+        break;
+      case "quick-sort":
+        iterations = quickSorter([...this.state.columns]);
+        console.log(iterations)
+        return iterations;
+        // setState({iterations: iterations});
+        break;
+      case "bubble-sort":
+        iterations = bubbleSorter([...this.state.columns]);
+        return iterations;
+        break;
+      case "selection-sort":
+        iterations = selectionSorter([...this.state.columns]);
+        return iterations;
+        break;
+      case "insertion-sort":
+        iterations = insertionSorter([...this.state.columns]);
+        return iterations;
+        break;
+      default:
+      // code block
+    }
+  };
+
+  animateSort = () => {
+    // console.log(state.iterations);
+    for (let i = 0; i < this.state.iterations.length; i++) {
+      setTimeout(() => {
+        // console.log(iterations[i]);
+        this.setState({ columns: this.state.iterations[i] });
+      }, 100 * i);
+    }
+    //console.log(state.iterations);
+  };
+
+  reset = () => {
+    console.log("Resetting")
+    this.populateColumns();
+    // this.setState({ columns: arr, iterations: this.getIterations([...arr]) });
+  };
   handleChange = (evt) => {
     const value = evt.target.value;
     this.setState({
       ...this.state,
       [evt.target.name]: value,
     }, () => {
-        console.log(this.state);
+        if (evt.target.name === 'sortMethod') {
+            this.populateColumns();
+        }
     });
   };
 
@@ -99,11 +179,13 @@ class DashboardClass extends React.Component {
               />
             </div>
           </div>
-          <Button variant="outlined">Sort</Button>
+          <Button className="dashboard-button" onClick={this.animateSort} variant="outlined">Sort</Button>
+          <Button className="dashboard-button" onClick={this.reset} variant="outlined">Reset</Button>
         </div>
         <SorterClass
           sortMethod={this.state.sortMethod}
-          algorithm={this.state.algorithm}
+          columns={this.state.columns}
+          iterations={this.state.iterations}
         />
       </>
     );
