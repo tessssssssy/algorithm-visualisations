@@ -7,6 +7,7 @@ const App = () => {
     <div className="App">
       <nav>
         <h1>ALGOMATIONS</h1>
+        <p>Sorting Algorithms Animated</p>
       </nav>
       <DashboardClass/>
     </div>

@@ -12,6 +12,10 @@ h1 {
   font-weight: 100;
   letter-spacing: 2px;
 }
+
+p {
+  color: white;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
