@@ -23,12 +23,12 @@ class DashboardClass extends React.Component {
     speed: 100,
     columns: [],
     iterations: [],
+    animating: false,
   };
 
   componentDidMount() {
     this.populateColumns();
   }
-
 
 
   populateColumns = () => {
@@ -43,11 +43,10 @@ class DashboardClass extends React.Component {
       randomArr.push(newArr[randomIndex]);
       newArr.splice(randomIndex, 1);
     }
-
     this.setState({ columns: randomArr }, () => {
-      console.log(this.state.columns);
+    //   console.log(this.state.columns);
       this.setState({ iterations: this.getIterations() }, () => {
-        console.log(this.state.iterations);
+        // console.log(this.state.iterations);
       });
     });
     // return randomArr;
@@ -73,28 +72,43 @@ class DashboardClass extends React.Component {
         iterations = insertionSorter([...this.state.columns]);
         return iterations;
       default:
-          break;
+        break;
       // code block
     }
   };
 
   animateSort = () => {
     // console.log(state.iterations);
-    let speed = 1000 / this.state.speed;
-    for (let i = 0; i < this.state.iterations.length; i++) {
-      setTimeout(() => {
-        // console.log(iterations[i]);
-        this.setState({ columns: this.state.iterations[i] });
-      }, speed * i);
+    if (this.state.animating) {
+        this.setState({animating: false})
+    } else {
+        this.setState({ animating: true }, () => {
+            let speed = 1000 / this.state.speed;
+              let index = 0
+          const interval = setInterval(() => {
+              this.setState({ columns: this.state.iterations[index] });
+              index++;
+              if (index >= this.state.iterations.length) {
+                  this.setState({ animating: false})
+              }
+              if (!this.state.animating) {
+                  clearInterval(interval);
+              }
+          }, speed);
+          });
     }
-    //console.log(state.iterations);
   };
 
   reset = () => {
     console.log("Resetting");
-    this.populateColumns();
+    this.setState({ animating: false }, () => {
+        console.log(this.state.animating)
+        this.populateColumns();
+        console.log(this.state.columns)
+    });
     // this.setState({ columns: arr, iterations: this.getIterations([...arr]) });
   };
+
   handleChange = (evt) => {
     const value = evt.target.value;
     console.log(value);
@@ -120,8 +134,9 @@ class DashboardClass extends React.Component {
   };
 
   handleSpeedChange = (evt, val) => {
-      this.setState({speed: val})
-  }
+    this.setState({ speed: val });
+  };
+
   render() {
     return (
       <>
@@ -194,9 +209,10 @@ class DashboardClass extends React.Component {
             onClick={this.animateSort}
             variant="outlined"
           >
-            Sort
+            {this.state.animating ? 'Stop' : 'Sort'}
           </Button>
           <Button
+            disabled={this.state.animating}
             className="dashboard-button"
             onClick={this.reset}
             variant="outlined"

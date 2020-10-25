@@ -5,9 +5,9 @@ import "./Sorter.scss";
 
 class SorterClass extends React.Component {
   render() {
-    console.log(this.props.columns)
+    // console.log(this.props.columns)
     const randomVal = Math.floor(Math.random() * 256)
-    const columnWidth = 1000 / this.props.columns.length
+    const columnWidth = 500 / this.props.columns.length
     return (
       <div className="sorter-container">
         <div className="columns-container">

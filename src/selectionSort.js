@@ -19,6 +19,7 @@ const selectionSorter = (array) => {
             
             
         }
+        iterations.push([...arr])
         return arr;
     }
     selectionSort(array)
